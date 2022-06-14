@@ -84,9 +84,9 @@ Route::get('logout', [Controller::class, 'logout'])->name('logout');
 
 Route::get('search', [Articles::class, 'allArticle']);
 
-Route::get('like_post', [LikeAndDislike::class, 'like_post']);
+Route::get('like_post/{post_id}', [LikeAndDislike::class, 'like_post']);
 
-Route::get('dislike_post', [LikeAndDislike::class, 'dislike_post']);
+Route::get('dislike_post/{post_id}', [LikeAndDislike::class, 'dislike_post']);
 
 Route::get('check_liked', [LikeAndDislike::class, 'check_liked']);
 
@@ -109,5 +109,3 @@ Route::get('upload', function(){
 })->name('view.upload');
 
 Route::post('upload', [Controller::class, 'upload'])->name('upload.article');
-
-Route::get('MELO', [Articles::class, 'guardianNews']);
