@@ -147,7 +147,6 @@ function onJSONLikes(json){
         }
 
     }
-    eraseCookie("post_id");
 }
 
 function open(event){
