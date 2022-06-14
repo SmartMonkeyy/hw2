@@ -5,37 +5,40 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\DB;
 use App\Models\LikeTable;
 use App\Models\ArticleTable;
 
 class LikeAndDislike extends BaseController
 {
 
-  public function like_post()
+  public function like_post($post_id)
   {
 
     $newLike = new LikeTable();
 
     $newLike->user = Session::get('user_id');
-    $newLike->post = $_COOKIE['post_id'];
+    $newLike->post = $post_id;
 
     $newLike->save();
 
-    $total_likes = ArticleTable::select('total_likes')->where('id', $_COOKIE['post_id'])->first();
+    $total_likes = ArticleTable::select('total_likes')->where('id', $post_id)->first();
 
-    return $total_likes->total_likes;
+    $info = ["total_likes" => $total_likes->total_likes, "post_id" => $post_id];
+
+    return $info;
 
   }
 
-  public function dislike_post()
+  public function dislike_post($post_id)
   {
     
-    LikeTable::select('*')->where('user', Session::get('user_id'))->where('post', $_COOKIE['post_id'])->delete();
+    LikeTable::select('*')->where('user', Session::get('user_id'))->where('post', $post_id)->delete();
 
-    $total_likes = ArticleTable::select('total_likes')->where('id', $_COOKIE['post_id'])->first();
+    $total_likes = ArticleTable::select('total_likes')->where('id', $post_id)->first();
 
-    return $total_likes->total_likes;
+    $info = ["total_likes" => $total_likes->total_likes, "post_id" => $post_id];
+
+    return $info;
 
   }
 
