@@ -54,8 +54,6 @@ function onLikeCheck(response){
 
 function onJSONCheck(json){
 
-    console.log(json);
-
     for(let i = 0; i < json.length; i++){
 
         for(let j = 0; j < btn1.length; j++){
@@ -96,11 +94,9 @@ function likePost(event){
 
     button = event.currentTarget;
 
-    var data = { 'post_id': button.parentNode.parentNode.dataset.id };
+    var post_id = button.parentNode.parentNode.dataset.id;
 
-    createCookie("post_id", button.parentNode.parentNode.dataset.id, "1");
-
-    fetch("like_post").then(onLikeResponse).then(onJSONLikes);
+    fetch("like_post/" + post_id).then(onLikeResponse).then(onJSONLikes);
 }
 
 function dislike(event){
@@ -129,44 +125,9 @@ function dislikePost(event){
 
     button = event.currentTarget;
 
-    createCookie("post_id", button.parentNode.parentNode.dataset.id, "1");
+    var post_id = button.parentNode.parentNode.dataset.id;
 
-    fetch("dislike_post").then(onLikeResponse).then(onJSONLikes);
-}
-
-function createCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-
-function getCookie(name) {
-    var nameEQ = name + "=";
-    //console.log(nameEQ);
-    var ca = document.cookie.split(';');
-    //console.log(ca);
-    for(var i=0; i < ca.length; i++) {
-        var c = ca[i];
-        //console.log(c);
-        //console.log("aaa");
-        while (c.charAt(0)==' '){
-            c = c.substring(1,c.length);
-            //console.log(c);
-        }
-        if (c.indexOf(nameEQ) == 0){
-            //console.log(c.substring(nameEQ.length,c.length));
-            return c.substring(nameEQ.length,c.length);
-        }
-    }
-    return null;
-}
-
-function eraseCookie(name) {   
-    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    fetch("dislike_post/" + post_id).then(onLikeResponse).then(onJSONLikes);
 }
 
 function onLikeResponse(response){
@@ -175,17 +136,13 @@ function onLikeResponse(response){
 
 function onJSONLikes(json){
 
-    var buttonID = getCookie("post_id");
-
-    console.log(buttonID);
-
-    console.log(json);
+    var buttonID = json.post_id;
 
     for(let i = 0; i < btnSection.length; i++){
 
         if(btnSection[i].id === buttonID){
 
-            btnSection[i].querySelector('span').textContent = json;
+            btnSection[i].querySelector('span').textContent = json.total_likes;
 
         }
 
