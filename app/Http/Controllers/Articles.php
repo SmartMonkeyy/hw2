@@ -25,7 +25,7 @@ class Articles extends BaseController
 
         case "business":{
 
-          $guardianNews = Articles::guardianNews();
+          $guardianNews = Articles::guardianNewsBusiness();
           $allArticles = ArticleTable::where('type', $page)->get();
           return view($page, ['allArticles' => $allArticles, 'guardianNews' => $guardianNews]);
 
@@ -45,6 +45,15 @@ class Articles extends BaseController
     {
 
       $url = "https://content.guardianapis.com/search?order-by=newest&api-key=".env('GUARDIAN_API_TOKEN');
+
+      return Http::get($url)->object()->response->results;
+
+    }
+
+    public function guardianNewsBusiness()
+    {
+
+      $url = "https://content.guardianapis.com/search?section=business&order-by=newest&api-key=".env('GUARDIAN_API_TOKEN');
 
       return Http::get($url)->object()->response->results;
 
