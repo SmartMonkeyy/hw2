@@ -213,7 +213,7 @@
     @foreach($guardianNews as $news)
       <a class="no-decoration" href="{{$news->webUrl}}" target="_blank">
         <p class="titles">{{$news->webTitle}}</p>
-        <p class="type">{{$news->pillarName}} / {{str_replace(array('T', 'Z')," ",$news->webPublicationDate)}}</p>
+        <p class="type">{{$news->sectionName}} / {{str_replace(array('T', 'Z')," ",$news->webPublicationDate)}}</p>
       </a>
     @endforeach
     </section>
